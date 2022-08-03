@@ -1,0 +1,23 @@
+.todo-card {
+    border: 1px solid #e8ecee;
+    width: 600px;
+    padding: 24px 16px;
+    font-size: 20px;
+}
+
+.pending {
+    border-left: 16px solid #2F80ED;
+}
+
+.done {
+    border-left: 16px solid #EB5757;
+    /* TODO: 打ち消し線をつける */
+}
+
+body {
+    background-color: #fafafa;
+}
+
+.list {
+    list-style: none;
+}
