@@ -6,13 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css" />
 </head>
 <body>
-    <ul class="list">
-        <li class="todo-card pending">掃除</li>
-        <li class="todo-card done">洗濯</li>
-        <li class="todo-card pending">ごはん</li>
-    </ul>
-
+    <main class="wrapper">
+        <form>
+            <div class="input-todo">
+                <input type="text" placeholder="新しいタスク">
+                <button type="submit">作成</button>
+            </div>
+        </form>
+        <ul class="list">
+            <li class="todo-card pending">掃除</li>
+            <li class="todo-card done">洗濯</li>
+            <li class="todo-card pending">ごはん</li>
+        </ul>
+    </main>
 </body>
 </html>

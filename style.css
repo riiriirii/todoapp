@@ -1,8 +1,52 @@
+body {
+    background-color: #fafafa;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 75px;
+}
+
+.input-todo {
+    border: 1px solid #BDBDBD;
+
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    border-radius: 4px;
+}
+
+.input-todo input {
+    flex: 1;
+    border: none;
+    background: #F2F2F2;
+    padding-left: 16px;
+}
+
+.input-todo button {
+    padding: 16px 24px;
+    color:  #F2F2F2;
+    background-color: #2F80ED;
+    border: none;
+}
+
+.list {
+    list-style: none;
+    margin-top: 64px;
+    padding: 0;
+    
+}
+
 .todo-card {
     border: 1px solid #e8ecee;
     width: 600px;
     padding: 24px 16px;
     font-size: 20px;
+    border-radius: 4px;
+    /* flexboxとかを使うと良さげ */
+    margin-bottom: 16px;
 }
 
 .pending {
@@ -11,13 +55,6 @@
 
 .done {
     border-left: 16px solid #EB5757;
+    text-decoration: line-through;
     /* TODO: 打ち消し線をつける */
-}
-
-body {
-    background-color: #fafafa;
-}
-
-.list {
-    list-style: none;
 }
