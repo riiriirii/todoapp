@@ -22,5 +22,32 @@
             <li class="todo-card pending">ごはん</li>
         </ul>
     </main>
+    <script>
+        // constは再代入ができない
+        const form = document.querySelector("form")
+
+        // e: 実際に起こったEventに関する情報
+        function handleSubmit(e) {
+            e.preventDefault()
+
+            // どうやってform inputから値を取るの？
+            // FormDataクラスを使う (こっち推奨ですが、若干むずい)
+            // querySelectorを使ってやる (こっちでやってみる)
+            const input = document.querySelector("form input")
+
+            const listEl = document.createElement("li")
+            listEl.innerText = input.value
+            listEl.classList.add("todo-card","pending")
+
+            const list = document.querySelector("ul.list")
+            list.appendChild(listEl)
+            input.value = ""
+        }
+
+        // 引数に関数を渡してあげる
+        // 第1引数: イベントの種類
+        // 第2引数: イベントが起こったときにしたい処理を書いてあげます
+        form.addEventListener("submit", handleSubmit)
+    </script>
 </body>
 </html>
