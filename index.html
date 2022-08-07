@@ -23,31 +23,35 @@
         </ul>
     </main>
     <script>
-        // constは再代入ができない
         const form = document.querySelector("form")
-
-        // e: 実際に起こったEventに関する情報
         function handleSubmit(e) {
             e.preventDefault()
-
-            // どうやってform inputから値を取るの？
-            // FormDataクラスを使う (こっち推奨ですが、若干むずい)
-            // querySelectorを使ってやる (こっちでやってみる)
             const input = document.querySelector("form input")
+            const list = document.createElement("li")
+            list.innerText = input.value
+            list.classList.add("todo-card","pending")
+            const ullist = document.querySelector("ul.list")
+            ullist.appendChild(list)
+            input.value=""
 
-            const listEl = document.createElement("li")
-            listEl.innerText = input.value
-            listEl.classList.add("todo-card","pending")
+        }
+        form.addEventListener("submit",handleSubmit)
 
-            const list = document.querySelector("ul.list")
-            list.appendChild(listEl)
-            input.value = ""
+        const todoCards = document.querySelectorAll("li.todo-card")
+
+        for (let i = 0; i < todoCards.length; i++) {
+            const todoCard = todoCards[i]
+            todoCard.addEventListener("dblclick",toggleStatus) 
         }
 
-        // 引数に関数を渡してあげる
-        // 第1引数: イベントの種類
-        // 第2引数: イベントが起こったときにしたい処理を書いてあげます
-        form.addEventListener("submit", handleSubmit)
+        function toggleStatus(e) {
+            const target = e.target
+            if (target.classList.contains("pending")) {
+                target.classList.replace("pending","done")
+            } else {
+                target.classList.replace("done","pending")
+            }
+        }
     </script>
 </body>
 </html>
