@@ -19,132 +19,187 @@
         <ul class="list"></ul>
     </main>
     <script>
-        // UIと状態が密結合している状態
-        // UI・Stateを切り離して別で管理したい
-
-        // State -> UIを作成する
-
-        const todos = [
+        const todos =[
             {
                 id: 1,
-                content: "掃除",
-                status: "PENDING"
-            }, 
+                content:"掃除",
+                status:"pending"
+            },
             {
                 id: 2,
-                content: "洗濯",
-                status: "DONE"
-            }, 
+                content:"洗濯",
+                status:"done"
+            },
             {
                 id: 3,
-                content: "ご飯",
-                status: "PENDING"
-            }, 
-        ];
-
-
-        // TODO要素を作成する関数
-        // 第一引数: todoに表示したい内容
-        function createTodo(content) {
-            const li = document.createElement("li");
-            li.classList.add("todo-card")
-            li.innerText = content
-            return li
-        }
-
-        function createPendingTodo(todo) {
-            const newTodo = createTodo(todo.content)
-
-            newTodo.addEventListener("dblclick", () => toggleStatus(todo.id))
-            newTodo.classList.add("pending")
-            return newTodo
-        }
-
-        function createDoneTodo(todo) {
-            const newTodo = createTodo(todo.content)
-
-            newTodo.addEventListener("dblclick", () => toggleStatus(todo.id))
-            newTodo.classList.add("done")
-            return newTodo
-        }
-
-        // TODO: 次回説明する
-        function toggleStatus(id) {
-            const index = todos.findIndex(_ => _.id === id)
-            if (index === -1) {
-                console.error("idが不正です")
-                return 
+                content:"ごはん",
+                status:"pending"
             }
+              
+        ]
 
-            todos[index].status = todos[index].status === "PENDING" ? "DONE" : "PENDING"
-            render()
-        }
-
-
-        // rootの子供要素をすべて削除する関数
-        // 第一引数: 子供を削除してほしい要素
-        function removeAllChildren(root) {
-            while(root.firstChild) {
-                root.removeChild(root.firstChild)
-            }
-        }
-
-        // todosからTODO要素を作成してHTMLに反映する
-        function render() {
-            const root = document.querySelector("ul.list")
-            removeAllChildren(root)
+        // render関数を作る
+        // render関数はtodosを一件づつ見ていって、対応するtodo要素を作成し、ul.listに追加する関数
+        // TODO: 二重にTODOが描写されるバグを修正
+        function render(){
+            const root = document.querySelector("ul.list");
 
             for(let i = 0; i < todos.length; i++) {
                 const todo = todos[i];
-
                 let newTodo;
-                switch (todo.status) {
-                    case "PENDING":
-                        newTodo = createPendingTodo(todo);
-                        break;
-
-                    case "DONE":
-                        newTodo = createDoneTodo(todo);
-                        break;
+                if (todo.status == "pending"){
+                    newTodo = document.createElement("li");
+                    newTodo.classList.add("pending","todo-card");
+                } else {
+                    newTodo = document.createElement("li");
+                    newTodo.classList.add("done","todo-card");
                 }
-
-                root.appendChild(newTodo)
+                root.appendChild(newTodo);
+                newTodo.innerText = todo.content;
             }
         }
-
-        render()
-
-
-        /**
-         * 今までのやり方
-         * 1. HTMLを見て入力されたないようなどを取得する
-         * 2. 新規の要素を作成する
-         * 3. HTMLにあるul.listの末尾に新規の要素を追加する
-         */
-
-        /**
-         * 新しいやり方
-         * 1. HTMLを見て入力されたないようなどを取得する
-         * 2. todosに新規のtodoを追加する
-         * 3. render関数を使ってHTMLを更新する
-         */
-        const form = document.querySelector("form")
+        render();
+        const form = document.querySelector("form");
         function handleSubmit(e) {
-            e.preventDefault()
-
-
-            const input = document.querySelector("form input")
-
-            const obj = {
-                id: todos.length + 1 ,
-                content: input.value ,
-                status: "PENDING",
+            const input = document.querySelector("form input");
+            const newTodoObj = {
+                id: todos.length + 1,
+                content: input.value,
+                status: "pending"
             }
-            todos.push(obj)
-            render()
-            input.value = ""
+            todos.push(newTodoObj);
+            render();
+            e.preventDefault();
         }
-        form.addEventListener("submit",handleSubmit)
+        form.addEventListener("submit",handleSubmit);
+
+
+        // // UIと状態が密結合している状態
+        // // UI・Stateを切り離して別で管理したい
+
+        // // State -> UIを作成する
+
+        // const todos = [
+        //     {
+        //         id: 1,
+        //         content: "掃除",
+        //         status: "PENDING"
+        //     }, 
+        //     {
+        //         id: 2,
+        //         content: "洗濯",
+        //         status: "DONE"
+        //     }, 
+        //     {
+        //         id: 3,
+        //         content: "ご飯",
+        //         status: "PENDING"
+        //     }, 
+        // ];
+
+
+        // // TODO要素を作成する関数
+        // // 第一引数: todoに表示したい内容
+        // function createTodo(content) {
+        //     const li = document.createElement("li");
+        //     li.classList.add("todo-card")
+        //     li.innerText = content
+        //     return li
+        // }
+
+        // function createPendingTodo(todo) {
+        //     const newTodo = createTodo(todo.content)
+
+        //     newTodo.addEventListener("dblclick", () => toggleStatus(todo.id))
+        //     newTodo.classList.add("pending")
+        //     return newTodo
+        // }
+
+        // function createDoneTodo(todo) {
+        //     const newTodo = createTodo(todo.content)
+
+        //     newTodo.addEventListener("dblclick", () => toggleStatus(todo.id))
+        //     newTodo.classList.add("done")
+        //     return newTodo
+        // }
+
+        // // TODO: 次回説明する
+        // function toggleStatus(id) {
+        //     const index = todos.findIndex(_ => _.id === id)
+        //     if (index === -1) {
+        //         console.error("idが不正です")
+        //         return 
+        //     }
+
+        //     todos[index].status = todos[index].status === "PENDING" ? "DONE" : "PENDING"
+        //     render()
+        // }
+
+
+        // // rootの子供要素をすべて削除する関数
+        // // 第一引数: 子供を削除してほしい要素
+        // function removeAllChildren(root) {
+        //     while(root.firstChild) {
+        //         root.removeChild(root.firstChild)
+        //     }
+        // }
+
+        // // todosからTODO要素を作成してHTMLに反映する
+        // function render() {
+        //     const root = document.querySelector("ul.list")
+        //     removeAllChildren(root)
+
+        //     for(let i = 0; i < todos.length; i++) {
+        //         const todo = todos[i];
+
+        //         let newTodo;
+        //         switch (todo.status) {
+        //             case "PENDING":
+        //                 newTodo = createPendingTodo(todo);
+        //                 break;
+
+        //             case "DONE":
+        //                 newTodo = createDoneTodo(todo);
+        //                 break;
+        //         }
+
+        //         root.appendChild(div)
+        //     }
+        // }
+
+        // render()
+
+
+        // /**
+        //  * 今までのやり方
+        //  * 1. HTMLを見て入力されたないようなどを取得する
+        //  * 2. 新規の要素を作成する
+        //  * 3. HTMLにあるul.listの末尾に新規の要素を追加する
+        //  */
+
+        // /**
+        //  * 新しいやり方
+        //  * 1. HTMLを見て入力されたないようなどを取得する
+        //  * 2. todosに新規のtodoを追加する
+        //  * 3. render関数を使ってHTMLを更新する
+        //  */
+        // const form = document.querySelector("form")
+        // function handleSubmit(e) {
+        //     e.preventDefault()
+
+
+        //     const input = document.querySelector("form input")
+
+        //     const obj = {
+        //         id: todos.length + 1 ,
+        //         content: input.value ,
+        //         status: "PENDING",
+        //     }
+        //     todos.push(obj)
+        //     render()
+        //     input.value = ""
+        // }
+        // form.addEventListener("submit",handleSubmit)
     </script>
 </body>
 </html>
