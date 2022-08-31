@@ -38,12 +38,30 @@
               
         ]
 
+        // 関数を返り値に返す関数
+        function toggleStatus(todo) {
+            return function _toggleStatus() {
+                console.group("toggleStatus")
+                console.log("前: ", todo)
+                if (todo.status === "pending") {
+                    todo.status = "done"
+                } else {
+                    todo.status = "pending"
+                }
+                console.log("後: ", todo)
+                console.groupEnd()
+                render();
+            }
+        }
+        
         // render関数を作る
         // render関数はtodosを一件づつ見ていって、対応するtodo要素を作成し、ul.listに追加する関数
         // TODO: 二重にTODOが描写されるバグを修正
         function render(){
             const root = document.querySelector("ul.list");
-
+            while (root.firstChild) {
+                root.removeChild(root.firstChild);
+            }
             for(let i = 0; i < todos.length; i++) {
                 const todo = todos[i];
                 let newTodo;
@@ -53,11 +71,22 @@
                 } else {
                     newTodo = document.createElement("li");
                     newTodo.classList.add("done","todo-card");
+                    const button = document.createElement("button");
+                    newTodo.append(button)
                 }
                 root.appendChild(newTodo);
                 newTodo.innerText = todo.content;
+
+                // コールバック関数
+                // 関数1の引数に関数2を渡して、関数1に関数2を実行してもらう
+                // 関数1: 高階関数
+                // 関数2: コールバック関数
+                // NOTE: 実は無名関数というのを使うともっとかんたんにかけるよ
+                newTodo.addEventListener("dblclick", toggleStatus(todo));
             }
         }
+
+       
         render();
         const form = document.querySelector("form");
         function handleSubmit(e) {
@@ -69,9 +98,10 @@
             }
             todos.push(newTodoObj);
             render();
+            input.value = ""
             e.preventDefault();
         }
-        form.addEventListener("submit",handleSubmit);
+        form.addEventListener("submit", handleSubmit);
 
 
         // // UIと状態が密結合している状態
