@@ -71,11 +71,15 @@
                 } else {
                     newTodo = document.createElement("li");
                     newTodo.classList.add("done","todo-card");
-                    const button = document.createElement("button");
-                    newTodo.append(button)
+                    
                 }
                 root.appendChild(newTodo);
                 newTodo.innerText = todo.content;
+                
+                if (todo.status == "done") {
+                    const button = document.createElement("button");
+                    newTodo.appendChild(button)
+                }
 
                 // コールバック関数
                 // 関数1の引数に関数2を渡して、関数1に関数2を実行してもらう
