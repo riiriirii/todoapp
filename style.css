@@ -47,6 +47,10 @@ body {
     border-radius: 4px;
     /* flexboxとかを使うと良さげ */
     margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .pending {
@@ -55,6 +59,9 @@ body {
 
 .done {
     border-left: 16px solid #EB5757;
-    text-decoration: line-through;
     /* TODO: 打ち消し線をつける */
+}
+
+.done span {
+    text-decoration: line-through;
 }
